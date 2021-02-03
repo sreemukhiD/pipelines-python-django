@@ -44,3 +44,18 @@ steps:
   inputs:
     testResultsFiles: "**/TEST-*.xml"
     testRunTitle: 'Python $(PYTHON_VERSION)'
+- task: DotNetCoreCLI@2
+  displayName: 'Run unit tests'
+  inputs:
+    command: 'test'
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    projects: '**/*UnitTests*.csproj'
+    testRunTitle: 'Unit Tests'
+   
+- task: DotNetCoreCLI@2
+  displayName: 'Run functional tests'
+  inputs:
+    command: 'test'
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    projects: '**/*FunctionalTests*.csproj'
+    testRunTitle: 'Functional Tests'
