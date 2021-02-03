@@ -55,9 +55,6 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)/CoverageResults/Cobertura.xml'
 
-variables:
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-
 steps:
 - task: Cache@2
   inputs:
