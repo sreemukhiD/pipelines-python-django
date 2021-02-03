@@ -44,18 +44,13 @@ steps:
   inputs:
     testResultsFiles: "**/TEST-*.xml"
     testRunTitle: 'Python $(PYTHON_VERSION)'
-- task: DotNetCoreCLI@2
-  displayName: 'Run unit tests'
+- task: reportgenerator@4
   inputs:
-    command: 'test'
-    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-    projects: '**/*UnitTests*.csproj'
-    testRunTitle: 'Unit Tests'
-   
-- task: DotNetCoreCLI@2
-  displayName: 'Run functional tests'
+    reports: '$(Build.SourcesDirectory)/**/*.cobertura.xml'
+    targetdir: '$(Build.SourcesDirectory)/CoverageResults'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
   inputs:
-    command: 'test'
-    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-    projects: '**/*FunctionalTests*.csproj'
-    testRunTitle: 'Functional Tests'
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/CoverageResults/Cobertura.xml'
